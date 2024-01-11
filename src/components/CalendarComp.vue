@@ -1,7 +1,7 @@
 <template>
     <div class="cal_wrapper">
         <div class="cal_cell" v-for="day in generateMonthGrid" :key="day" :class="day.classes"
-            @click="createEvent(day.full_date)">
+            @click="$emit('createEvent', day.full_date)">
             <p>{{ day.date }}</p>
             <div v-for="event in day.events" :key="event" class="event" :class="event.classes">{{ event.description }}</div>
         </div>
@@ -13,6 +13,9 @@ import { getDate, setDate, previousMonday, previousSunday, addDays, isPast, isTo
 
 
 export default {
+    emits: [
+        'createEvent'
+    ],
     props: {
         date_selector: {
             required: true
@@ -25,9 +28,6 @@ export default {
             type: Array,
             required: false
         }
-    },
-    methods: {
-
     },
     computed: {
         // Generates an array of 35 day-cells starting at the last monday/sunday relative to the 1st of the month
